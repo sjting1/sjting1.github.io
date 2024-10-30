@@ -87,3 +87,9 @@ count(rest_inspec_sample, violation_code) #68 types
 count(rest_inspec_sample, violation_description) #64 types, also has NA.
 count(rest_inspec_sample, zipcode) #231 different zipcodes
 ```
+
+
+```{r, include = FALSE}
+rest_inspec_sample1 = rest_inspec_sample |>
+  drop_na(score) #drop 2 observations with NA
+```
