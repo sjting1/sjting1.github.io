@@ -1,9 +1,7 @@
 ---
-title: "Experience"
+title: "Resume"
 output: html_document
 ---
-
-### Resume
 
 <img src="resume/SerenaTing_Resume.1.jpeg">
 <img src="resume/SerenaTing_Resume.2.jpeg">
