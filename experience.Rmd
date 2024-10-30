@@ -3,8 +3,7 @@ title: "Experience"
 output: html_document
 ---
 
-### My Experiences
+### Resume
 
-A page giving your academic and professional experience (i.e. a resume)
-
-Attach a resume
+<img src="resume/SerenaTing_Resume.1.jpeg">
+<img src="resume/SerenaTing_Resume.2.jpeg">
