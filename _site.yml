@@ -1,0 +1,17 @@
+name: "Yay internet!"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Flexdashboard"
+      href: flexb.html
+    - icon: fa-linkedin fa-lg
+      href: https://www.linkedin.com/in/serenajting/
+    - icon: fa-envelope fa-lg
+      href: mailto:<sjt2164@cumc.columbia.edu>
+    - icon: fa-github fa-lg
+      href: http://github.com/sjting1/
+output:
+  html_document
