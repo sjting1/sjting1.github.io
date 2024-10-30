@@ -104,3 +104,15 @@ bar = rest_inspec_sample1 |>
 bar
 ```
 
+
+```{r boxplot, echo = FALSE}
+box_ggplot = 
+  rest_inspec_sample1 |> 
+  filter(boro == "MANHATTAN") |>
+  mutate(grade = fct_reorder(grade, score)) |> 
+  ggplot(aes(x = grade, y = score, fill = boro)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplotly(box_ggplot)
+```
