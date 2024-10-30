@@ -13,3 +13,40 @@ library(tidyverse)
 library(p8105.datasets)
 library(plotly)
 ```
+
+
+```{r import dataset, include = FALSE }
+data(rest_inspec)
+
+rest_inspec
+
+#397584 observations and 18 variables 
+#variables include: action, boro, building, camis, critical_flag, cuisine_description, dba, inspection_date, inspection_type, phone, record_date, score, street, violation_code, violation_description, zipcode, grade, grade_date
+```
+
+```{r explore data, include = FALSE}
+
+distinct(rest_inspec, action) #5, "Violations were cited in the following area(s)" included in two categories, also have NA. Basically: closed, re-closed, re-open, no violation, violation cited., no NAs
+
+distinct(rest_inspec, boro) #all 5 boroughs, with "missing" entries as well, no NAs (just "missing")
+
+distinct(rest_inspec, critical_flag)  #3 levels: not critical, critical, not applicable, no NAs
+
+distinct(rest_inspec, cuisine_description) #85 types, types can be a combination of different things, one misspled? "CafÃ©/Coffee/Tea", no NAs
+
+distinct(rest_inspec, inspection_date) #from year 1900 to 2017, inspection dates become more often later on. 
+
+distinct(rest_inspec, record_date) #one date (10/19/17) with 3 different times that varried by the second
+
+distinct(rest_inspec, score) #from -2 to 151, integers, there is NA
+distinct(rest_inspec, street) #there's NA and special characters
+
+distinct(rest_inspec, violation_code) #99 different codes, code name includes 2 digit number and one letter, there is NA
+distinct(rest_inspec, violation_description) #there is NA, might not need this
+
+distinct(rest_inspec, zipcode) #234 zip codes, there is also NA
+
+distinct(rest_inspec, grade) #A, B, C, P, Z, "Not yet graded", and NA
+
+distinct(rest_inspec, grade_date) #there is NA, 2012-2017
+```
