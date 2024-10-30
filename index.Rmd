@@ -3,7 +3,11 @@ title: "Home"
 output: html_document
 ---
 
-### Introduction
+### Hello, welcome to my website!
 
-Add more for a brief introductory landing page
+This website is created as part of an homework assignment for P8105 Data Science I. 
+
+For more information about me and my experiences, click "About".
+
+Click "Flexdashboard" to see interactive graphs of NYC Restaurant Inspection Results.
 
