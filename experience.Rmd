@@ -3,5 +3,5 @@ title: "Resume"
 output: html_document
 ---
 
-<img src="resume/SerenaTing_Resume.1.jpeg">
-<img src="resume/SerenaTing_Resume.2.jpeg">
+<img src="files/resume/SerenaTing_Resume.1.jpeg">
+<img src="files/resume/SerenaTing_Resume.2.jpeg">
