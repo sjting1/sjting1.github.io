@@ -116,3 +116,16 @@ box_ggplot =
 
 ggplotly(box_ggplot)
 ```
+
+
+```{r scatter, echo = FALSE}
+scatter_ggplot = rest_inspec_sample1 |>
+  filter(cuisine_description == "American", boro == "MANHATTAN", gr_year == 2017) |>
+  ggplot(aes(x = zipcode, y = score, color = boro)) +
+  geom_point(alpha = 0.25) +
+  coord_cartesian()
+
+ggplotly(scatter_ggplot)
+```
+
+[NYC Restaurant Inspections](https://p8105.com/dataset_restaurant_inspections.html)
