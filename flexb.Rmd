@@ -50,3 +50,40 @@ distinct(rest_inspec, grade) #A, B, C, P, Z, "Not yet graded", and NA
 
 distinct(rest_inspec, grade_date) #there is NA, 2012-2017
 ```
+
+
+
+```{r sample, include = FALSE}
+#obtain smaller sample size from dataset. 
+
+rest_inspec_sample = rest_inspec |>
+  separate(inspection_date, into = c("insp_year", "insp_month", "insp_date"), sep = "-") |> 
+  filter(
+    boro != "Missing", 
+    insp_year %in% c("2013", "2014", "2015", "2016", "2017"), #sample from 2013-2017. 5 year data.
+    grade %in% c("A", "B", "C")) |> #keep only those with A, B, or C
+  select(-c(building, phone, record_date)) |>
+  separate(grade_date, into = c("gr_year", "gr_month", "gr_date"), sep = "-") |>
+  mutate(
+    boro = as.factor(boro),
+    critical_flag = as.factor(critical_flag),
+    action = as.factor(action),
+    cuisine_description = as.factor(cuisine_description),
+    grade = as.factor(grade))
+
+#188191 observations x 17 variables
+
+distinct(rest_inspec_sample, boro) #all 5 boroughs. No NAs.
+distinct(rest_inspec_sample, action) #3 categories. No NAs.
+count(rest_inspec_sample, critical_flag) #3 levels: not critical, critical, not applicable. No NAs
+count(rest_inspec_sample, cuisine_description) |> view() #85 types
+
+#19739 restaurant names but 24713 different restaurant identifiers. Maybe because franchise like Dunkin' Donuts, Starbucks, etc.
+count(rest_inspec_sample, dba) #19739 restaurant names
+count(rest_inspec_sample, camis) #some restaurants have been inspected multiple times. max. of 36X, min. of 1x. 24,713 different entities of restaurants.
+count(rest_inspec_sample, inspection_type) #9 types
+count(rest_inspec_sample, score) #-1 to 86. 2 NAs.
+count(rest_inspec_sample, violation_code) #68 types
+count(rest_inspec_sample, violation_description) #64 types, also has NA.
+count(rest_inspec_sample, zipcode) #231 different zipcodes
+```
