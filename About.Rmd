@@ -3,8 +3,6 @@ title: "About Me"
 output: html_document
 ---
 
-My name is Serena and I am second year MPH student studying Epidemiology. My interest is in pediatric infectious diseases. Below is a link to me resume.
-
-
+My name is Serena and I am second year MPH student at Columbia University Mailman School of Public Health. My field of interest in Epidemiology is pediatric infectious diseases. Below is a link to my resume.
 
 [Resume](experience.html)
