@@ -89,7 +89,7 @@ rest_inspec_sample = rest_inspec |>
 distinct(rest_inspec_sample, boro) #all 5 boroughs. No NAs.
 distinct(rest_inspec_sample, action) #3 categories. No NAs.
 count(rest_inspec_sample, critical_flag) #3 levels: not critical, critical, not applicable. No NAs
-count(rest_inspec_sample, cuisine_description) |> view() #85 types
+count(rest_inspec_sample, cuisine_description) #85 types
 
 #19739 restaurant names but 24713 different restaurant identifiers. Maybe because franchise like Dunkin' Donuts, Starbucks, etc.
 count(rest_inspec_sample, dba) #19739 restaurant names
@@ -143,7 +143,7 @@ ggplotly(box_ggplot)
 This scatterplot contains observations of Manhattan entities that received a grade (A, B, or C) in 2017. There are 1,894 observations. 
 
 ```{r scatter, echo = FALSE}
-distinct(rest_inspec_sample1, cuisine_description)
+
 
 scatter_ggplot = rest_inspec_sample1 |>
   filter(cuisine_description %in% c("Chinese", "Japanese", "Korean"), boro == "MANHATTAN", gr_year == 2017) |>
