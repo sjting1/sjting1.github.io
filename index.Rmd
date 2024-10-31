@@ -9,5 +9,5 @@ This website is created as part of an homework assignment for P8105 Data Science
 
 For more information about me and my experiences, click "About".
 
-Click "Flexdashboard" to see interactive graphs of NYC Restaurant Inspection Results.
+Click "Plotly" and "Dashboard" to see interactive graphs of NYC Restaurant Inspection Results.
 

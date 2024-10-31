@@ -5,8 +5,10 @@ navbar:
   right:
     - text: "About"
       href: about.html
-    - text: "Flexdashboard"
-      href: flexb.html
+    - text: "Plotly"
+      href: plotly.html
+    - text: "Dashboard"
+      href: dashboard_copy.html
     - icon: fa-linkedin fa-lg
       href: https://www.linkedin.com/in/serenajting/
     - icon: fa-envelope fa-lg

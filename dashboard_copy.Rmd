@@ -1,0 +1,131 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r, include = FALSE}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+
+library(flexdashboard)
+```
+
+
+```{r import dataset, include = FALSE }
+data(rest_inspec)
+
+rest_inspec
+
+#397584 observations and 18 variables 
+#variables include: action, boro, building, camis, critical_flag, cuisine_description, dba, inspection_date, inspection_type, phone, record_date, score, street, violation_code, violation_description, zipcode, grade, grade_date
+```
+
+```{r explore data, include = FALSE}
+
+distinct(rest_inspec, action) #5, "Violations were cited in the following area(s)" included in two categories, also have NA. Basically: closed, re-closed, re-open, no violation, violation cited., no NAs
+
+distinct(rest_inspec, boro) #all 5 boroughs, with "missing" entries as well, no NAs (just "missing")
+
+distinct(rest_inspec, critical_flag)  #3 levels: not critical, critical, not applicable, no NAs
+
+distinct(rest_inspec, cuisine_description) #85 types, types can be a combination of different things, one misspled? "CafÃ©/Coffee/Tea", no NAs
+
+distinct(rest_inspec, inspection_date) #from year 1900 to 2017, inspection dates become more often later on. 
+
+distinct(rest_inspec, record_date) #one date (10/19/17) with 3 different times that varried by the second
+
+distinct(rest_inspec, score) #from -2 to 151, integers, there is NA
+distinct(rest_inspec, street) #there's NA and special characters
+
+distinct(rest_inspec, violation_code) #99 different codes, code name includes 2 digit number and one letter, there is NA
+distinct(rest_inspec, violation_description) #there is NA, might not need this
+
+distinct(rest_inspec, zipcode) #234 zip codes, there is also NA
+
+distinct(rest_inspec, grade) #A, B, C, P, Z, "Not yet graded", and NA
+
+distinct(rest_inspec, grade_date) #there is NA, 2012-2017
+```
+
+
+```{r sample, include = FALSE}
+#obtain smaller sample size from dataset. 
+
+rest_inspec_sample = rest_inspec |>
+  separate(inspection_date, into = c("insp_year", "insp_month", "insp_date"), sep = "-") |> 
+  filter(
+    boro != "Missing", 
+    insp_year %in% c("2013", "2014", "2015", "2016", "2017"), #sample from 2013-2017. 5 year data.
+    grade %in% c("A", "B", "C")) |> #keep only those with A, B, or C
+  select(-c(building, phone, record_date)) |>
+  separate(grade_date, into = c("gr_year", "gr_month", "gr_date"), sep = "-") |>
+  mutate(
+    boro = as.factor(boro),
+    critical_flag = as.factor(critical_flag),
+    action = as.factor(action),
+    cuisine_description = as.factor(cuisine_description),
+    grade = as.factor(grade))
+
+#188191 observations x 17 variables
+
+distinct(rest_inspec_sample, boro) #all 5 boroughs. No NAs.
+distinct(rest_inspec_sample, action) #3 categories. No NAs.
+count(rest_inspec_sample, critical_flag) #3 levels: not critical, critical, not applicable. No NAs
+count(rest_inspec_sample, cuisine_description) |> view() #85 types
+
+#19739 restaurant names but 24713 different restaurant identifiers. Maybe because franchise like Dunkin' Donuts, Starbucks, etc.
+count(rest_inspec_sample, dba) #19739 restaurant names
+count(rest_inspec_sample, camis) #some restaurants have been inspected multiple times. max. of 36X, min. of 1x. 24,713 different entities of restaurants.
+count(rest_inspec_sample, inspection_type) #9 types
+count(rest_inspec_sample, score) #-1 to 86. 2 NAs.
+count(rest_inspec_sample, violation_code) #68 types
+count(rest_inspec_sample, violation_description) #64 types, also has NA.
+count(rest_inspec_sample, zipcode) #231 different zipcodes
+```
+
+
+```{r, include = FALSE}
+rest_inspec_sample1 = rest_inspec_sample |>
+  drop_na(score) #drop 2 observations with NA
+```
+
+
+### Bar Graph: Counts Across 5 Boroughs
+```{r bar, echo = FALSE}
+bar = rest_inspec_sample1 |> 
+  count(boro) |> 
+  mutate(boro = fct_reorder(boro, n)) |> 
+  plot_ly(x = ~boro, y = ~n, color = ~boro, type = "bar", colors = "viridis")
+
+bar
+```
+
+### Manhattan Bar Graph: Grade vs. Score
+
+```{r boxplot, echo = FALSE}
+box_ggplot = 
+  rest_inspec_sample1 |> 
+  filter(boro == "MANHATTAN") |>
+  mutate(grade = fct_reorder(grade, score)) |> 
+  ggplot(aes(x = grade, y = score, fill = boro)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplotly(box_ggplot)
+```
+
+### Manhattan Scatterplot: Zip code vs. Score
+
+```{r scatter, echo = FALSE}
+scatter_ggplot = rest_inspec_sample1 |>
+  filter(cuisine_description == "American", boro == "MANHATTAN", gr_year == 2017) |>
+  ggplot(aes(x = zipcode, y = score, color = boro)) +
+  geom_point(alpha = 0.25) +
+  coord_cartesian()
+
+ggplotly(scatter_ggplot)
+```

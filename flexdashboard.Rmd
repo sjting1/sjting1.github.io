@@ -1,0 +1,59 @@
+---
+title: "Flexdashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+
+library(flexdashboard)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r bar, echo = FALSE}
+bar = rest_inspec_sample1 |> 
+  count(boro) |> 
+  mutate(boro = fct_reorder(boro, n)) |> 
+  plot_ly(x = ~boro, y = ~n, color = ~boro, type = "bar", colors = "viridis")
+
+bar
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+box_ggplot = 
+  rest_inspec_sample1 |> 
+  filter(boro == "MANHATTAN") |>
+  mutate(grade = fct_reorder(grade, score)) |> 
+  ggplot(aes(x = grade, y = score, fill = boro)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplotly(box_ggplot)
+```
+
+### Chart C
+
+```{r}
+scatter_ggplot = rest_inspec_sample1 |>
+  filter(cuisine_description == "American", boro == "MANHATTAN", gr_year == 2017) |>
+  ggplot(aes(x = zipcode, y = score, color = boro)) +
+  geom_point(alpha = 0.25) +
+  coord_cartesian()
+
+ggplotly(scatter_ggplot)
+```
+
