@@ -118,14 +118,16 @@ box_ggplot =
 ggplotly(box_ggplot)
 ```
 
-### Manhattan Scatterplot: Zip code vs. Score
+### Manhattan Scatterplot: Zip code vs. Score by Cuisine (Chinese, Japanese, Korean)
 
 ```{r scatter, echo = FALSE}
 scatter_ggplot = rest_inspec_sample1 |>
-  filter(cuisine_description == "American", boro == "MANHATTAN", gr_year == 2017) |>
-  ggplot(aes(x = zipcode, y = score, color = boro)) +
+  filter(cuisine_description %in% c("Chinese", "Japanese", "Korean"), boro == "MANHATTAN", gr_year == 2017) |>
+  rename(cuisine = cuisine_description) |>
+  ggplot(aes(x = zipcode, y = score, color = cuisine)) +
   geom_point(alpha = 0.25) +
   coord_cartesian()
+
 
 ggplotly(scatter_ggplot)
 ```
